@@ -59,6 +59,9 @@ do
 			CREATION_DATE=`exiftool -d '%Y-%m' -CreateDate -s3 "${FILE_NAME}"`
 		fi
 		if [ -z "${CREATION_DATE}" ]; then
+			CREATION_DATE=`exiftool -d '%Y-%m' -FileModif* -s3 "${FILE_NAME}"`
+		fi
+		if [ -z "${CREATION_DATE}" ]; then
 			echo "Can't get ${FILE_NAME} file date, exiting..."
 			exit 1
 		fi
