@@ -37,6 +37,7 @@ do
 		echo "Processing files in directory [${FILE_NAME}]" | tee -a "${LOG_FILE}"
 		continue
 	fi
+	echo ${FILE_NAME}
 	
 	BASE_FILE_NAME=`basename ${FILE_NAME}`
 
@@ -59,13 +60,10 @@ do
 			CREATION_DATE=`exiftool -d '%Y-%m' -CreateDate -s3 "${FILE_NAME}"`
 		fi
 		if [ -z "${CREATION_DATE}" ]; then
-			CREATION_DATE=`exiftool -d '%Y-%m' -FileModif* -s3 "${FILE_NAME}"`
+			USE_EXIFTOOL="N"
 		fi
-		if [ -z "${CREATION_DATE}" ]; then
-			echo "Can't get ${FILE_NAME} file date, exiting..."
-			exit 1
-		fi
-	else
+	fi
+	if [ "${USE_EXIFTOOL}" == "N" ]; then
 		CREATION_TIME=`mdls "${FILE_NAME}" | awk -F= '/kMDItemContentCreationDate /{print $2}'`
 		if [ -z "${CREATION_TIME}" ]; then
 			CREATION_TIME=`mdls "${FILE_NAME}" | awk -F= '/kMDItemFSContentChangeDate /{print $2}'`
