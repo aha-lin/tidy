@@ -63,6 +63,7 @@ do
 			USE_EXIFTOOL="N"
 		fi
 	fi
+
 	if [ "${USE_EXIFTOOL}" == "N" ]; then
 		CREATION_TIME=`mdls "${FILE_NAME}" | awk -F= '/kMDItemContentCreationDate /{print $2}'`
 		if [ -z "${CREATION_TIME}" ]; then
